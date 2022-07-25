@@ -1,0 +1,53 @@
+{% extends 'App/base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="text-center alert alert-info">Add New Employee</h4>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" class="btn btn-success" value="submit">
+        </form>
+    </div>
+
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-info">Show Employee Details</h4>
+        {% if ep %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in ep %}
+                <tr>
+                    <th scope="row">{{e.id}}</th>
+                    <td>{{e.name}}</td>
+                    <td>{{e.email}}</td>
+                    <td>{{e.password}}</td>
+                    <td>
+                        <a href="{% url 'updatedata' e.id %}" class="btn btn-success btn-sm">Update</a>
+                        <form action="{% url 'deletedata' e.id %}" method="post" class="d-inline"> {% csrf_token %}
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+          
+        {% else %}
+            <h4 class="text-center alert alert-warning">NO RECORDS!</h4>
+        {% endif %}
+    </div>
+
+
+</div>
+
+{% endblock content %}
